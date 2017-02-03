@@ -1,0 +1,59 @@
+{% extends 'map_app/base.html' %}
+
+{% block title %}SEARCH{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+		<div class="col-sm-7 col-sm-offset-5">
+			<div class="page-header">
+				<h1 style="font-size: 42pt">MAP</h1>
+			</div>
+		</div>
+
+		<div class="col-sm-8 col-sm-offset-4">
+				<div class="col-lg-6">
+					<div class="input-group">
+							<form method="POST" action="{% url 'area_search' %}">
+							{% csrf_token %}
+					  			<input type="text" class="form-control" name="textfield" placeholder="Search zip-code..." style="width: 300px">
+					    		<span class="input-group-btn">
+					    				<button class="btn btn-default" name="_area" type="submit">
+					    					<span class="glyphicon glyphicon-search"></span>
+					    				</button>
+					    		</span><br/>
+					    		<span class="input-group-btn">
+					    				<button class="btn btn-default" name="_gas" type="submit" value="{{ area.id }}">
+					    					<span class="glyphicon glyphicon-tint"></span>
+					    				</button>
+					    				<button class="btn btn-default" name="_rest" type="submit" value="{{ area.id }}">
+					    					<span class="glyphicon glyphicon-glass"></span>
+					    				</button>
+					    				<button class="btn btn-default" name="_store" type="submit" value="{{ area.id }}">
+					    					<span class="glyphicon glyphicon-gift"></span>
+					    				</button>
+									</span>
+							</form>
+					</div>
+				</div>
+			</div>
+		<div class="col-sm-8 col-sm-offset-4">
+			<ul>
+				<li>{{ area.address }} {{ area.zip_code }}</li>
+					<ol>
+					<li style='font-weight: bold'>Gas Stations:</li>
+					{% for tag in area.stations.all %}
+							&emsp; {{ tag }}
+					{% endfor %}
+					<li style='font-weight: bold'>Restaurants:</li>
+					{% for tag in area.rests.all %}
+							&emsp; {{ tag }}
+					{% endfor %}
+					<li style='font-weight: bold'>Stores:</li> 
+					{% for tag in area.stores.all %}
+							&emsp; {{ tag }}
+					{% endfor %}
+					</ol>
+			</ul>
+		</div>
+</div>
+{% endblock %}
